@@ -39,6 +39,7 @@ public @Data class Compte {
 	@Column(name="SOLDE_COMPTE")
 	double solde;
 	
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name="DEVISE_COMPTE")
 	Devise devise;
@@ -46,11 +47,11 @@ public @Data class Compte {
 	@Column(name="CREATION_DATE_COMPTE")
 	LocalDateTime creationDate;
 	
-	
 	@JoinColumn(name="PROPRIETAIRE_COMPTE")
 	@ManyToOne
 	Client proprietaire;
 	
+	@JsonIgnore
 	@JoinColumn(name="CREATION_AGENT_COMPTE")
 	@ManyToOne
 	Agent creationAgent;

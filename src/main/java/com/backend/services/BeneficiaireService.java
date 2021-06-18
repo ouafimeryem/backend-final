@@ -61,7 +61,6 @@ public class BeneficiaireService {
 	
 	public void removeBeneficiaire(Long id) throws NotFoundException
 	{
-
 		//vérifier l'existence du beneficiaire
 		Beneficiaire beneficiaire=rep.findById(id).orElseThrow(() -> new NotFoundException("Aucun beneficiaire avec l'id "+id+" n'est trouvé"));
 		rep.delete(beneficiaire);

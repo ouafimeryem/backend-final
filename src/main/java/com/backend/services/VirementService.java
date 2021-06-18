@@ -79,38 +79,38 @@ public class VirementService {
 	
 	public void addVirement(List<Virement> virements) throws Exception, AlreadyExistsException
 	{
-		Compte debiteur = compteService.getComptes(virements.get(0).getDebiteur().getId()).get(0);
-		List<Compte> creanciers;
+		Compte creancier = compteService.getComptes(virements.get(0).getCreancier().getId()).get(0);
+		List<Compte> debiteurs;
 		
 		//verify if there is enough money
-		if(!isEnough(virements, debiteur)) {
+		if(!isEnough(virements, creancier)) {
 			throw new Exception("Vous n'avez pas de solde suffisant !");
 		}
 		
 		for(int i=0; i<virements.size(); i++) {
 			Virement virement = virements.get(i);
-			Compte creancier = compteService.getComptes(virement.getCreancier().getId()).get(0);
+			Compte debiteur = compteService.getComptes(virement.getDebiteur().getId()).get(0);
 			
 			Client client = clientService.getByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
-			Client clientDebiteur = clientService.getClients(debiteur.getProprietaire().getId()).get(0);
-			if(client != clientDebiteur) throw new Exception("Ce compte ne vous appartient pas !");
+			Client clientDebiteur1 = clientService.getClients(creancier.getProprietaire().getId()).get(0);
+			if(client != clientDebiteur1) throw new Exception("Ce compte ne vous appartient pas !");
 			
 			virement.setDate(LocalDateTime.now());
 			rep.save(virement);
 			
-			debiteur.setSolde(debiteur.getSolde() - virement.getSommeEnv());
-			creancier.setSolde(creancier.getSolde() + virement.getSommeRecu());
+			creancier.setSolde(creancier.getSolde() - virement.getSommeEnv());
+			debiteur.setSolde(debiteur.getSolde() + virement.getSommeRecu());
 			
-			compteService.rep.save(creancier);
+			compteService.rep.save(debiteur);
 			
-			Devise devise = deviseService.getDevises(debiteur.getDevise().getId()).get(0);
+			Devise devise = deviseService.getDevises(creancier.getDevise().getId()).get(0);
 			
 			logger.debug("Le client "+client.getNom()+" "+client.getPrenom()+" ayant le Username "+client.getUsername()
 				+" a effectué un virement de "+virement.getSommeEnv()+devise.getCode()+" à la date "+virement.getDate()+" du compte "
-					+debiteur.getNumero()+" vers le compte "+creancier.getNumero());
+					+creancier.getNumero()+" vers le compte "+debiteur.getNumero());
 		}
 		
-		compteService.rep.save(debiteur);
+		compteService.rep.save(creancier);
 	}
 	
 	public ResponseEntity<InputStreamResource> getRecuVirementPDF(Long id) throws IOException
