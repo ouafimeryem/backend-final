@@ -90,9 +90,11 @@ public class VirementService {
 		for(int i=0; i<virements.size(); i++) {
 			Virement virement = virements.get(i);
 			Compte creancier = compteService.getComptes(virement.getCreancier().getId()).get(0);
+			
 			Client client = clientService.getByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
 			Client clientDebiteur = clientService.getClients(debiteur.getProprietaire().getId()).get(0);
 			if(client != clientDebiteur) throw new Exception("Ce compte ne vous appartient pas !");
+			
 			virement.setDate(LocalDateTime.now());
 			rep.save(virement);
 			

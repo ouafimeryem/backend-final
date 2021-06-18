@@ -66,7 +66,13 @@ public class ClientService {
 		
 	}
 	
-	
+	public List<Beneficiaire> getBeneficiaires(Long id) throws NotFoundException
+	{
+		Client client= rep.findById(id).orElseThrow(() -> new NotFoundException("Aucun client avec l'id "+id+" trouvé"));
+		if(client.getBeneficiaires().isEmpty()) throw new NotFoundException("Cet client n'a aucun beneficiaire.");
+		return client.getBeneficiaires();
+		
+	}
 	
 	public void addClient(Client client) throws AlreadyExistsException
 	{

@@ -27,7 +27,7 @@ import com.itextpdf.text.DocumentException;
 @RestController
 public class BeneficiaireController {
 
-	BeneficiaireService service;
+BeneficiaireService service;
 	
 	@Autowired
 	public BeneficiaireController(BeneficiaireService service) {
@@ -35,26 +35,27 @@ public class BeneficiaireController {
 		this.service=service;
 	}
 	//get
-	@GetMapping("/beneficiaire")
+	@GetMapping("/beneficiaires")
 	@ResponseStatus(HttpStatus.OK)
-	public List<Beneficiaire> getBeneficiaires(@RequestParam(name="id", required=false) Long id) throws NotFoundException
+	public List<Beneficiaire> getBeneficiaires() throws NotFoundException
 	{
-		return service.getBeneficiaires(id);
+		return service.getBeneficiaires();
 	}
+	
 	//post
-	@PostMapping("/beneficiaires")
-	@ResponseStatus(HttpStatus.CREATED)
-	public void addBeneficiaire(@RequestBody Beneficiaire beneficiaire)  throws AlreadyExistsException, DocumentException, FileNotFoundException
-	{
-		service.addBeneficiaire(beneficiaire);
-	}
+		@PostMapping("/beneficiaire")
+		@ResponseStatus(HttpStatus.CREATED)
+		public void addBeneficiaire(@RequestBody Beneficiaire beneficiaire)  throws AlreadyExistsException, DocumentException, FileNotFoundException
+		{
+			service.addBeneficiaire(beneficiaire);
+		}
+		
 	
-	@DeleteMapping("/beneficiaire/{id}")
-	@ResponseStatus(HttpStatus.OK)
-	public void deletebeneficiaire(@PathVariable Long id) throws NotFoundException
-	{
-		service.removeBeneficiaire(id);
-	}
-	
-	
+	//DELETE
+		@DeleteMapping("/beneficiaire/{id}")
+		@ResponseStatus(HttpStatus.OK)
+		public void deleteBeneficiaire(@PathVariable(name="id") Long id) throws NotFoundException
+		{
+			service.removeBeneficiaire(id);
+		}
 }

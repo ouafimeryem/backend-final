@@ -14,6 +14,7 @@ import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -75,5 +76,5 @@ public @Data class Compte {
 	@Column(name="OPERATIONS_COMPTE")
 	@OneToMany(mappedBy="compte",cascade=CascadeType.ALL)
 	List<Operation> operations;
-
+	
 }

@@ -57,4 +57,5 @@ public @Data class Client  extends Utilisateur{
 	@Column(name="COMPTES_BENEFICIAIRE")
 	@OneToMany(mappedBy="parent",cascade=CascadeType.ALL)
 	List<Beneficiaire> beneficiaires;
+	
 }

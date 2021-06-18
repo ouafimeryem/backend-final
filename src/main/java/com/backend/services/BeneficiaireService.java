@@ -30,42 +30,41 @@ public class BeneficiaireService {
 	@Autowired
 	CompteRepository repCompte;
 	
-	Logger logger = LoggerFactory.getLogger(BeneficiaireService.class.getName());
+	@Autowired
+	ClientService clientService;
 	
-	public List<Beneficiaire> getBeneficiaires(Long id) throws NotFoundException
-	{
-
+	public List<Beneficiaire> getBeneficiaires()  {
+		
+		Client client = clientService.getByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+		
 		List<Beneficiaire> beneficiaires= new ArrayList<Beneficiaire>();	
 
-		if(id!=null)
-			beneficiaires.add(rep.findById(id).orElseThrow(() -> new NotFoundException("Aucun compte avec l'id "+id+" trouvé")));
-
-		else
-			beneficiaires=rep.findAll();
+		beneficiaires=clientService.getBeneficiaires(client.getId());
 
 		if(beneficiaires.isEmpty())  throw new NotFoundException("Aucun compte trouvé");
 		
 		return beneficiaires;
 	}
-	
-	public void addBeneficiaire(Beneficiaire beneficiaire) throws AlreadyExistsException, DocumentException, FileNotFoundException
-	{
-		if(rep.findByNumero(beneficiaire.getNumero()).isPresent()) {
-			throw new AlreadyExistsException("Un compte avec le Numero "+beneficiaire.getNumero()+" existe déjà");
+
+	public void addBeneficiaire(Beneficiaire beneficiaire) {
+		
+		if(rep.findById(beneficiaire.getId()).isPresent()) {
+			throw new AlreadyExistsException("Un compte avec le Numero "+beneficiaire.getId()+" existe déjà");
 		}
 		
-		if(!repCompte.findByNumero(beneficiaire.getNumero()).isPresent()){
-			throw new NotFoundException("compte non trouvé");
+		if(!repCompte.findByNumero(beneficiaire.getNumeroCompte()).isPresent()) {
+			throw new NotFoundException("Un compte avec le Numero "+beneficiaire.getNumeroCompte() +" n'existe pas");
 		}
-
+		
 		rep.save(beneficiaire);
-
 	}
 	
 	public void removeBeneficiaire(Long id) throws NotFoundException
 	{
-		//vérifier l'existence
-		Beneficiaire beneficiaire=rep.findById(id).orElseThrow(() -> new NotFoundException("Aucun compte avec l'id "+id+" n'est trouvé"));
+
+		//vérifier l'existence du beneficiaire
+		Beneficiaire beneficiaire=rep.findById(id).orElseThrow(() -> new NotFoundException("Aucun beneficiaire avec l'id "+id+" n'est trouvé"));
 		rep.delete(beneficiaire);
 	}
+	
 }

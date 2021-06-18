@@ -5,6 +5,7 @@ import java.util.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -43,11 +44,10 @@ public class VirementController {
 		
 		//POST
 			
-			@PostMapping("/virements")
+			@RequestMapping(value = "/virements", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 			@ResponseStatus(HttpStatus.CREATED)
-			public void addVirement(@RequestBody List<Virement> virements)  throws Exception, AlreadyExistsException
+			public @ResponseBody void addVirement(@RequestBody List<Virement> virements)  throws Exception, AlreadyExistsException
 			{
 				service.addVirement(virements);
 			}
 }
-
