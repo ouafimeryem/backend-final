@@ -96,6 +96,8 @@ public class VirementService {
 			if(client != clientDebiteur1) throw new Exception("Ce compte ne vous appartient pas !");
 			
 			virement.setDate(LocalDateTime.now());
+			//
+			
 			rep.save(virement);
 			
 			creancier.setSolde(creancier.getSolde() - virement.getSommeEnv());

@@ -148,15 +148,15 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
 			.antMatchers(HttpMethod.GET,"/contratPDF/{id}").hasRole("Agent")	//Contrat PDF
 			
 			//VIREMENT ET RECHARGE
-			.antMatchers(HttpMethod.GET,"/compte/{id}/virements").permitAll()	//afficher virements
-			.antMatchers(HttpMethod.GET,"/compte/{id}/virementsEnvoyes").permitAll()	//afficher virement envoyes
-			.antMatchers(HttpMethod.GET,"/compte/{id}/virementsRecus").permitAll()	//afficher virement recus
-			.antMatchers(HttpMethod.GET,"/compte/{id}/recharges").permitAll()	//afficher recharges
-			.antMatchers(HttpMethod.GET,"/virements").permitAll()	//afficher virement
-			.antMatchers(HttpMethod.GET,"/virementPDF/{id}").permitAll()	// Reçu virement PDF
-			.antMatchers(HttpMethod.POST,"/virements").permitAll()	//creer virement
-			.antMatchers(HttpMethod.GET,"/recharges").permitAll()	//afficher recharge
-			.antMatchers(HttpMethod.POST,"/recharges").permitAll()	//creer recharge
+			.antMatchers(HttpMethod.GET,"/compte/{id}/virements").hasRole("Client")//afficher virements
+			.antMatchers(HttpMethod.GET,"/compte/{id}/virementsEnvoyes").hasRole("Client")	//afficher virement envoyes
+			.antMatchers(HttpMethod.GET,"/compte/{id}/virementsRecus").hasRole("Client")//afficher virement recus
+			.antMatchers(HttpMethod.GET,"/compte/{id}/recharges").hasRole("Client")//afficher recharges
+			.antMatchers(HttpMethod.GET,"/virements").hasRole("Client")	//afficher virement
+			.antMatchers(HttpMethod.GET,"/virementPDF/{id}").hasRole("Client")	// Reçu virement PDF
+			.antMatchers(HttpMethod.POST,"/virements").hasRole("Client")	//creer virement
+			.antMatchers(HttpMethod.GET,"/recharges").hasRole("Client")	//afficher recharge
+			.antMatchers(HttpMethod.POST,"/recharges").hasRole("Client")	//creer recharge
 			
 			//OPERATIONS (RETRAIT ET VERSEMENT)
 			.antMatchers(HttpMethod.GET,"/operations").hasAnyRole("Agent","Client")	//afficher operation

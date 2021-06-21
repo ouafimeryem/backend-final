@@ -49,5 +49,6 @@ public class VirementController {
 			public @ResponseBody void addVirement(@RequestBody List<Virement> virements)  throws Exception, AlreadyExistsException
 			{
 				service.addVirement(virements);
+				
 			}
 }

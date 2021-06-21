@@ -45,9 +45,9 @@ BeneficiaireService service;
 	//post
 		@PostMapping("/beneficiaire")
 		@ResponseStatus(HttpStatus.CREATED)
-		public void addBeneficiaire(@RequestBody Beneficiaire beneficiaire)  throws AlreadyExistsException, DocumentException, FileNotFoundException
+		public void addBeneficiaire(@RequestBody String numCompte)  throws AlreadyExistsException, DocumentException, FileNotFoundException
 		{
-			service.addBeneficiaire(beneficiaire);
+			service.addBeneficiaire(numCompte);
 		}
 		
 	

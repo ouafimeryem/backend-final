@@ -33,6 +33,9 @@ public class BeneficiaireService {
 	@Autowired
 	ClientService clientService;
 	
+	@Autowired
+	CompteService compteService;
+	
 	public List<Beneficiaire> getBeneficiaires()  {
 		
 		Client client = clientService.getByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
@@ -45,19 +48,34 @@ public class BeneficiaireService {
 		
 		return beneficiaires;
 	}
-
-	public void addBeneficiaire(Beneficiaire beneficiaire) {
+	
+		public void addBeneficiaire(String numCompte) {
 		
-		if(rep.findById(beneficiaire.getId()).isPresent()) {
-			throw new AlreadyExistsException("Un compte avec le Numero "+beneficiaire.getId()+" existe déjà");
+			Compte compte = compteService.getCompteByNumero(numCompte);
+			Client clientParent = clientService.getByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+			
+			List<Beneficiaire> ben = clientParent.getBeneficiaires();
+			
+			for(int i=0; i<ben.size(); i++) {
+				if(ben.get(i).getNumeroCompte().equals(numCompte)) {
+					throw new AlreadyExistsException("ce beneficiaire exist deja");
+				}
+			}
+		
+			if(!repCompte.findByNumero(numCompte).isPresent()) {
+				throw new NotFoundException("Un compte avec le Numero "+ numCompte +" n'existe pas");
+			}
+		
+			Beneficiaire beneficiaire = new Beneficiaire();
+			Client client = compte.getProprietaire();
+		
+			beneficiaire.setNom(client.getNom());
+			beneficiaire.setPrenom(client.getPrenom());
+			beneficiaire.setNumeroCompte(numCompte);
+			beneficiaire.setParent(clientParent);
+		
+			rep.save(beneficiaire);
 		}
-		
-		if(!repCompte.findByNumero(beneficiaire.getNumeroCompte()).isPresent()) {
-			throw new NotFoundException("Un compte avec le Numero "+beneficiaire.getNumeroCompte() +" n'existe pas");
-		}
-		
-		rep.save(beneficiaire);
-	}
 	
 	public void removeBeneficiaire(Long id) throws NotFoundException
 	{

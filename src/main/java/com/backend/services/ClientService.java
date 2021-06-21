@@ -57,7 +57,6 @@ public class ClientService {
 	}
 	
 	
-	
 	public List<Compte> getComptes(Long id) throws NotFoundException
 	{
 		Client client= rep.findById(id).orElseThrow(() -> new NotFoundException("Aucun client avec l'id "+id+" trouvé"));

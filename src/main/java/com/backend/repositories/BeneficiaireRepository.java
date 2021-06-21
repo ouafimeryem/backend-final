@@ -10,5 +10,5 @@ import com.backend.entities.Compte;
 
 public interface BeneficiaireRepository extends JpaRepository<Beneficiaire, Long> {
 	 
-	
+	Optional<Beneficiaire> findByNumeroCompte(String numeroCompte);
 }
