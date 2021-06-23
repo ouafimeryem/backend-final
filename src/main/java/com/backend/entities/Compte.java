@@ -39,7 +39,7 @@ public @Data class Compte {
 	@Column(name="SOLDE_COMPTE")
 	double solde;
 	
-	@JsonIgnore
+	
 	@ManyToOne
 	@JoinColumn(name="DEVISE_COMPTE")
 	Devise devise;
@@ -51,7 +51,7 @@ public @Data class Compte {
 	@ManyToOne
 	Client proprietaire;
 	
-	@JsonIgnore
+	
 	@JoinColumn(name="CREATION_AGENT_COMPTE")
 	@ManyToOne
 	Agent creationAgent;
