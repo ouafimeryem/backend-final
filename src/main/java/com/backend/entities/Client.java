@@ -38,15 +38,15 @@ import lombok.Data;
 public @Data class Client  extends Utilisateur{
 	
 	@Column(name="EST_OPERATEUR_CLIENT")
-	@JsonIgnore
+	
 	String estOperateur;
 	
-	@JsonIgnore
+	
 	@JoinColumn(name="CREATION_AGENT_CLIENT")
 	@ManyToOne
 	Agent creationAgent;
 
-	@JsonIgnore
+	
 	@JoinColumn(name="AGENCE_CLIENT")
 	@ManyToOne
 	Agence agence;
