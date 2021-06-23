@@ -61,4 +61,9 @@ public @Data class Client  extends Utilisateur{
 	@OneToMany(mappedBy="parent",cascade=CascadeType.ALL)
 	List<Beneficiaire> beneficiaires;
 	
+	@JsonIgnore
+	@Column(name="APPOINTEMENT_CLIENT")
+	@OneToMany(mappedBy="client",cascade=CascadeType.ALL)
+	List<Appointement> appointements;
+	
 }
